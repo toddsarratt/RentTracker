@@ -3,11 +3,23 @@ package net.toddsarratt.renttracker.datastore.dao;
 import net.toddsarratt.renttracker.entity.Stb;
 
 public interface StbDAO extends GenericDAO<Stb, Long> {
-	Long create();
+	@Override
+	default Long create(Stb newInstance) {
+		return null;
+	}
 
-	Stb find();
+	@Override
+	default Stb find(Long id) {
+		return null;
+	}
 
-	boolean update();
+	@Override
+	default void update(Stb transientObject) {
 
-	boolean delete();
+	}
+
+	@Override
+	default void delete(Stb persistentObject) {
+
+	}
 }
