@@ -1,4 +1,4 @@
-package net.toddsarratt.renttracker.datastore;
+package net.toddsarratt.renttracker.datastore.dao;
 
 public class FlatFileDAOFactory extends DAOFactory {
 
