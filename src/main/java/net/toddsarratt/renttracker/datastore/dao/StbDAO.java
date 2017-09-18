@@ -4,22 +4,14 @@ import net.toddsarratt.renttracker.entity.Stb;
 
 public interface StbDAO extends GenericDAO<Stb, Long> {
 	@Override
-	default Long create(Stb newInstance) {
-		return null;
-	}
+	Long create(Stb newInstance);
 
 	@Override
-	default Stb find(Long id) {
-		return null;
-	}
+	Stb find(Long id);
 
 	@Override
-	default void update(Stb transientObject) {
-
-	}
+	void update(Stb transientObject);
 
 	@Override
-	default void delete(Stb persistentObject) {
-
-	}
+	void delete(Stb persistentObject);
 }

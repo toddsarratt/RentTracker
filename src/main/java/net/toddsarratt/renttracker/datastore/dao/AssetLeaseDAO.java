@@ -3,11 +3,15 @@ package net.toddsarratt.renttracker.datastore.dao;
 import net.toddsarratt.renttracker.entity.AssetLease;
 
 public interface AssetLeaseDAO extends GenericDAO<AssetLease, Long> {
-	Long create();
+	@Override
+	Long create(AssetLease newInstance);
 
-	AssetLease find();
+	@Override
+	AssetLease find(Long id);
 
-	boolean update();
+	@Override
+	void update(AssetLease transientObject);
 
-	boolean delete();
+	@Override
+	void delete(AssetLease persistentObject);
 }

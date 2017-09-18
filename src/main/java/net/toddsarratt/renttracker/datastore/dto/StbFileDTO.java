@@ -12,10 +12,6 @@ public class StbFileDTO {
 		this.name = stb.getName();
 	}
 
-	public byte[] serializeToFile() {
-		return this.name.getBytes();
-	}
-
 	public Long getId() {
 		return id;
 	}

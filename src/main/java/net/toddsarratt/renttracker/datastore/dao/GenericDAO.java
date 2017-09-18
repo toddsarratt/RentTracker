@@ -10,8 +10,6 @@ import java.io.Serializable;
  * @param <PK> primary key
  */
 public interface GenericDAO<T, PK extends Serializable> {
-	/* CRUD operations */
-
 	/**
 	 * Create operation
 	 */
