@@ -2,17 +2,28 @@ package net.toddsarratt.renttracker.datastore.dao;
 
 import net.toddsarratt.renttracker.entity.Stb;
 
-public class StbFileDAO implements StbDAO {
+import java.io.IOException;
+import java.nio.file.Path;
+
+public class StbFileDAO extends GenericFileDAO<Stb, Long> implements StbDAO {
+
+	private Path filePath;
+
+	public StbFileDAO(Path filePath) {
+		this.filePath = filePath;
+	}
+
 	@Override
 	public Long create(Stb newInstance) {
-		/*
-		Get connection
-		Get next ID
-		Write to STB table
-		Write new ID to counter
-		Return ID
-		 */
-		return null;
+		try {
+			Long lastId = getIdFromSeqFile(filePath);
+			newInstance.setId(lastId + 1L);
+			save(newInstance, filePath);
+		} catch (IOException ioe) {
+			// Log error
+			return null;
+		}
+		return newInstance.getId();
 	}
 
 	@Override
@@ -43,9 +54,11 @@ public class StbFileDAO implements StbDAO {
 		 */
 	}
 
-	private void getConnection() {
-		/*
-		Provide access to filesystem
-		 */
+	public Path getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(Path filePath) {
+		this.filePath = filePath;
 	}
 }

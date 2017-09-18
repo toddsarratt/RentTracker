@@ -20,22 +20,22 @@ public class RentTracker {
 	private static final String DROPBOX_DIRECTORY = ROOT_DIRECTORY + "\\dropbox";
 
 	/**
-	 * @param args
+	 * Entry point to the RentTracker application. Run from command line without arguments.
+	 *
+	 * @param args ignored so far
 	 * @throws IOException if any file operations fail then the program fails
 	 */
-	public void main(String[] args) throws IOException {
-		// Check datastore directory structure & create if missing
-		System.out.println("Checking for persistence directories");
+	public static void main(String[] args) throws IOException {
+		System.out.println("Checking for persistence directories...");
 		PersistenceDirectoryManager.createPersistenceDirectoriesIfMissing(PERSISTENCE_DIRECTORY);
-		// Check datastore sequence.txt in each & create if missing
+		System.out.println("Checking for persistence files...");
 		PersistenceFileManager.createSequenceFilesIfMissing(PERSISTENCE_DIRECTORY);
-		// Check dropbox for files
+		System.out.println("Checking dropbox for import files...");
 		Path dropboxPath = DropboxHandler.createDropboxDirectoryIfMissing(DROPBOX_DIRECTORY);
-		// Read all data from dropbox
+		System.out.println("Persisting import file data...");
 		List<ViewFileDTO> allDtosToPersist = ViewFileImporter.importFromDropbox(dropboxPath, CHARSET);
-		// Persist data read from dropbox
 		PersistImporterDTOs.writeEm(allDtosToPersist);
-		// REPL
+		System.out.println("Launching REPL...");
 		QueryHandler.doIt();
 	}
 }
