@@ -1,5 +1,6 @@
 package net.toddsarratt.renttracker.datastore.dao;
 
+import net.toddsarratt.renttracker.datastore.dto.StbFileDTO;
 import net.toddsarratt.renttracker.entity.Stb;
 
 import java.io.IOException;
@@ -18,7 +19,8 @@ public class StbFileDAO extends GenericFileDAO<Stb, Long> implements StbDAO {
 		try {
 			Long lastId = getIdFromSeqFile(filePath);
 			newInstance.setId(lastId + 1L);
-			save(newInstance, filePath);
+			StbFileDTO dto = new StbFileDTO(newInstance);
+			save(dto, filePath);
 		} catch (IOException ioe) {
 			// Log error
 			return null;

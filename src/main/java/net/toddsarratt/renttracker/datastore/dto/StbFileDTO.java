@@ -2,7 +2,9 @@ package net.toddsarratt.renttracker.datastore.dto;
 
 import net.toddsarratt.renttracker.entity.Stb;
 
-public class StbFileDTO {
+public class StbFileDTO implements FileDTO {
+
+	private static final String FILE_SUFFIX = ".stb";
 
 	private Long id;
 	private String name;
@@ -12,6 +14,17 @@ public class StbFileDTO {
 		this.name = stb.getName();
 	}
 
+	@Override
+	public byte[] serializeToFile() {
+		return this.name.getBytes();
+	}
+
+	@Override
+	public String getFileSuffix() {
+		return FILE_SUFFIX;
+	}
+
+	@Override
 	public Long getId() {
 		return id;
 	}
@@ -27,4 +40,5 @@ public class StbFileDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 }
