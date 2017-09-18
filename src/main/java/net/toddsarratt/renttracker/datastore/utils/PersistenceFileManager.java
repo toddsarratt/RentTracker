@@ -4,32 +4,34 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class PersistenceFileManager {
 
 	private static final byte[] ZERO = new byte[]{'0'};
 
-	public static void createSequenceFilesIfMissing(String persistenceFileRoot) throws IOException {
-		// Too magical. Could use Reflection for this, for example
-		for (String directory : new String[]{"asset", "stb", "assetLease"}) {
-			System.out.println("Looking for \\" + directory);
-			createSequenceFileIfMissing(persistenceFileRoot + "\\" + directory);
+	public static void createSequenceFilesIfMissing(List<Path> persistencePaths) throws IOException {
+		for (Path persistencePath : persistencePaths) {
+			System.out.println("Looking for sequence file in: " + persistencePath);
+			createSequenceFileIfMissing(persistencePath);
 		}
 	}
 
-	private static void createSequenceFileIfMissing(String persistenceFile) throws IOException {
+	private static void createSequenceFileIfMissing(Path persistencePath) throws IOException {
+		String pathName = persistencePath.toString();
+		String entityName = pathName.substring(pathName.lastIndexOf("\\") + 1, pathName.length());
 		// Check for files
-		String fileName = persistenceFile + "Seq.txt";
-		Path persistencePath = Paths.get(persistenceFile);
+		String fileName = "seq." + entityName;
 		// Create files if missing
-		if (!Files.exists(persistencePath)) {
-			Files.createFile(persistencePath);
+		Path sequenceFileFullPath = Paths.get(pathName, fileName);
+		if (!Files.exists(sequenceFileFullPath)) {
+			Files.createFile(sequenceFileFullPath);
 		}
 		// Write 0 to file
-		writeZeroToSequenceFile(persistencePath);
+		writeZeroToSequenceFile(sequenceFileFullPath);
 	}
 
-	private static void writeZeroToSequenceFile(Path persistencePath) throws IOException {
-		Files.write(persistencePath, ZERO);
+	private static void writeZeroToSequenceFile(Path sequenceFileFullPath) throws IOException {
+		Files.write(sequenceFileFullPath, ZERO);
 	}
 }

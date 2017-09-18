@@ -11,7 +11,10 @@ public class DirectoryManager {
 		// Check for directory
 		Path path = Paths.get(directory);
 		// Create directory if missing
-		if (!Files.exists(path)) {
+		if (Files.exists(path)) {
+			System.out.println("Found: " + path);
+		} else {
+			System.out.println("Creating directory: " + path);
 			Files.createDirectory(path);
 		}
 		if (!Files.isDirectory(path)) {

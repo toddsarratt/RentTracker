@@ -27,9 +27,10 @@ public class RentTracker {
 	 */
 	public static void main(String[] args) throws IOException {
 		System.out.println("Checking for persistence directories...");
-		PersistenceDirectoryManager.createPersistenceDirectoriesIfMissing(PERSISTENCE_DIRECTORY);
+		List<Path> persistencePaths =
+				PersistenceDirectoryManager.createPersistenceDirectoriesIfMissing(PERSISTENCE_DIRECTORY);
 		System.out.println("Checking for persistence files...");
-		PersistenceFileManager.createSequenceFilesIfMissing(PERSISTENCE_DIRECTORY);
+		PersistenceFileManager.createSequenceFilesIfMissing(persistencePaths);
 		System.out.println("Checking dropbox for import files...");
 		Path dropboxPath = DropboxHandler.createDropboxDirectoryIfMissing(DROPBOX_DIRECTORY);
 		System.out.println("Persisting import file data...");
