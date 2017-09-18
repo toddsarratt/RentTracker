@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
-import java.nio.file.FileSystems;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -15,13 +15,20 @@ import java.util.Collections;
 import java.util.List;
 
 public class ViewFileImporter {
-	// Constants for use in file import
-	private static final String DROPBOX_DIRECTORY = "C:\\Code\\IntellijGit\\RentTracker\\dropbox";
-	private static final Charset CHARSET = Charset.forName("US-ASCII");
 
-	public List<ViewFileDTO> readit(String fileName) {
-		Path path = FileSystems.getDefault().getPath(DROPBOX_DIRECTORY, fileName);
-		try (BufferedReader reader = Files.newBufferedReader(path, CHARSET)) {
+	public static List<ViewFileDTO> importFromDropbox(Path dropbox, Charset charset) throws IOException {
+		List<ViewFileDTO> allDtosToPersist = new ArrayList<>();
+		// Check for files
+		DirectoryStream<Path> stream = Files.newDirectoryStream(dropbox);
+		for (Path file : stream) {
+			System.out.println(file.getFileName());
+			allDtosToPersist.addAll(readit(dropbox, file, charset));
+		}
+		return allDtosToPersist;
+	}
+
+	public static List<ViewFileDTO> readit(Path dropbox, Path file, Charset charset) {
+		try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
 			String line;
 			String header = reader.readLine();
 			if (headerValid(header)) {
@@ -44,7 +51,7 @@ public class ViewFileImporter {
 		return Collections.emptyList();
 	}
 
-	private boolean headerValid(String header) {
+	private static boolean headerValid(String header) {
 		String[] headerColumns = header.split("\\|");
 		return headerColumns[0].equals("STB") &&
 				headerColumns[1].equals("TITLE") &&
@@ -54,7 +61,7 @@ public class ViewFileImporter {
 				headerColumns[5].equals("VIEW_TIME");
 	}
 
-	private ViewFileDTO convertLineToViewFileDTO(String line) {
+	private static ViewFileDTO convertLineToViewFileDTO(String line) {
 		ViewFileDTO dto = new ViewFileDTO();
 		String[] view = line.split("\\|");
 		dto.setStb(view[0]);
