@@ -18,10 +18,10 @@ public class ViewFileImporter {
 
 	public static List<ViewFileDTO> importFromDropbox(Path dropbox, Charset charset) throws IOException {
 		List<ViewFileDTO> allDtosToPersist = new ArrayList<>();
-		// Check for files
+		System.out.println("Checking for import files in dropbox...");
 		DirectoryStream<Path> stream = Files.newDirectoryStream(dropbox);
 		for (Path file : stream) {
-			System.out.println(file.getFileName());
+			System.out.println("Found in dropbox: " + file.getFileName());
 			allDtosToPersist.addAll(readit(dropbox, file, charset));
 		}
 		return allDtosToPersist;
@@ -73,7 +73,6 @@ public class ViewFileImporter {
 			dto.setDate(LocalDate.parse(view[3]));
 			// May throw NumberFormatException
 			dto.setRev(new BigDecimal(view[4]));
-			dto.setViewTime(Duration.parse(view[5]));
 			// Split VIEW_TIME into hours and minutes to parse to Java Duration class
 			String[] viewHoursMinutes = view[5].split(":");
 			// See: https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#parse-java.lang.CharSequence-

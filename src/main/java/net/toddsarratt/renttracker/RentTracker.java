@@ -31,9 +31,9 @@ public class RentTracker {
 				PersistenceDirectoryManager.createPersistenceDirectoriesIfMissing(PERSISTENCE_DIRECTORY);
 		System.out.println("Checking for persistence files...");
 		PersistenceFileManager.createSequenceFilesIfMissing(persistencePaths);
-		System.out.println("Checking dropbox for import files...");
+		System.out.println("Checking for dropbox...");
 		Path dropboxPath = DropboxHandler.createDropboxDirectoryIfMissing(DROPBOX_DIRECTORY);
-		System.out.println("Persisting import file data...");
+		System.out.println("Looking for dropbox files to import...");
 		List<ViewFileDTO> allDtosToPersist = ViewFileImporter.importFromDropbox(dropboxPath, CHARSET);
 		PersistImporterDTOs.writeEm(allDtosToPersist);
 		System.out.println("Launching REPL...");

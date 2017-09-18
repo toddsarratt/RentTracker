@@ -17,6 +17,8 @@ public class PersistImporterDTOs {
 			asset.setTitle(dto.getTitle());
 			asset.setProvider(dto.getProvider());
 			AssetLease assetLease = new AssetLease();
+			assetLease.setStb(stb);
+			assetLease.setAsset(asset);
 			assetLease.setDate(dto.getDate());
 			assetLease.setRev(dto.getRev());
 			assetLease.setViewTime(dto.getViewTime());
