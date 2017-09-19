@@ -1,5 +1,8 @@
 package net.toddsarratt.renttracker;
 
+import net.toddsarratt.renttracker.datastore.dao.AssetFileDAO;
+import net.toddsarratt.renttracker.datastore.dao.AssetLeaseFileDAO;
+import net.toddsarratt.renttracker.datastore.dao.StbFileDAO;
 import net.toddsarratt.renttracker.datastore.utils.PersistImporterDTOs;
 import net.toddsarratt.renttracker.datastore.utils.PersistenceDirectoryManager;
 import net.toddsarratt.renttracker.datastore.utils.PersistenceFileManager;
@@ -19,6 +22,10 @@ public class RentTracker {
 	private static final Charset CHARSET = Charset.forName("US-ASCII");
 	private static final String DROPBOX_DIRECTORY = ROOT_DIRECTORY + "\\dropbox";
 
+	private static StbFileDAO stbFileDAO = new StbFileDAO();
+	private static AssetFileDAO assetFileDAO = new AssetFileDAO();
+	private static AssetLeaseFileDAO assetLeaseFileDAO = new AssetLeaseFileDAO();
+
 	/**
 	 * Entry point to the RentTracker application. Run from command line without arguments.
 	 *
@@ -35,7 +42,7 @@ public class RentTracker {
 		Path dropboxPath = DropboxHandler.createDropboxDirectoryIfMissing(DROPBOX_DIRECTORY);
 		System.out.println("Looking for dropbox files to import...");
 		List<ViewFileDTO> allDtosToPersist = ViewFileImporter.importFromDropbox(dropboxPath, CHARSET);
-		PersistImporterDTOs.writeEm(allDtosToPersist);
+		PersistImporterDTOs.persistDTOs(allDtosToPersist);
 		System.out.println("Launching REPL...");
 		QueryHandler.doIt();
 	}
