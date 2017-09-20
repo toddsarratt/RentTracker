@@ -18,7 +18,6 @@ public class ViewFileImporter {
 
 	public static List<ViewFileDTO> importFromDropbox(Path dropbox, Charset charset) throws IOException {
 		List<ViewFileDTO> allDtosToPersist = new ArrayList<>();
-		System.out.println("Checking for import files in dropbox...");
 		DirectoryStream<Path> stream = Files.newDirectoryStream(dropbox);
 		for (Path file : stream) {
 			System.out.println("Found in dropbox: " + file.getFileName());

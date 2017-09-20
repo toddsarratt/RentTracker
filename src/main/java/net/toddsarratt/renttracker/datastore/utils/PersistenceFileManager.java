@@ -25,10 +25,12 @@ public class PersistenceFileManager {
 		// Create files if missing
 		Path sequenceFileFullPath = Paths.get(pathName, fileName);
 		if (!Files.exists(sequenceFileFullPath)) {
+			System.out.println("Creating: " + sequenceFileFullPath);
 			Files.createFile(sequenceFileFullPath);
+			writeZeroToSequenceFile(sequenceFileFullPath);
+		} else {
+			System.out.println("Found: " + sequenceFileFullPath);
 		}
-		// Write 0 to file
-		writeZeroToSequenceFile(sequenceFileFullPath);
 	}
 
 	private static void writeZeroToSequenceFile(Path sequenceFileFullPath) throws IOException {

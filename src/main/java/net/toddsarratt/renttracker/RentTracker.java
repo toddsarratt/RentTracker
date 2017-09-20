@@ -2,6 +2,7 @@ package net.toddsarratt.renttracker;
 
 import net.toddsarratt.renttracker.datastore.dao.AssetFileDAO;
 import net.toddsarratt.renttracker.datastore.dao.AssetLeaseFileDAO;
+import net.toddsarratt.renttracker.datastore.dao.GenericFileDAO;
 import net.toddsarratt.renttracker.datastore.dao.StbFileDAO;
 import net.toddsarratt.renttracker.datastore.utils.PersistImporterDTOs;
 import net.toddsarratt.renttracker.datastore.utils.PersistenceDirectoryManager;
@@ -22,9 +23,24 @@ public class RentTracker {
 	private static final Charset CHARSET = Charset.forName("US-ASCII");
 	private static final String DROPBOX_DIRECTORY = ROOT_DIRECTORY + "\\dropbox";
 
-	private static StbFileDAO stbFileDAO = new StbFileDAO();
-	private static AssetFileDAO assetFileDAO = new AssetFileDAO();
-	private static AssetLeaseFileDAO assetLeaseFileDAO = new AssetLeaseFileDAO();
+	private static GenericFileDAO stbFileDAO = StbFileDAO.getInstance();
+	private static GenericFileDAO assetFileDAO = AssetFileDAO.getInstance();
+	private static GenericFileDAO assetLeaseFileDAO = AssetLeaseFileDAO.getInstance();
+
+	private void setDaoPaths(List<Path> persistencePaths) {
+		persistencePaths.forEach(path -> {
+			if (path.toString().contains("Stb")) {
+				System.out.println("StbFileDAO path for persisted object = " + path);
+				stbFileDAO.setFilePath(path);
+			} else if (path.toString().contains("AssetLease")) {
+				System.out.println("AssetLeaseFileDAO path for persisted object = " + path);
+				assetLeaseFileDAO.setFilePath(path);
+			} else {
+				System.out.println("AssetFileDAO path for persisted object = " + path);
+				assetFileDAO.setFilePath(path);
+			}
+		});
+	}
 
 	/**
 	 * Entry point to the RentTracker application. Run from command line without arguments.
@@ -36,6 +52,7 @@ public class RentTracker {
 		System.out.println("Checking for persistence directories...");
 		List<Path> persistencePaths =
 				PersistenceDirectoryManager.createPersistenceDirectoriesIfMissing(PERSISTENCE_DIRECTORY);
+
 		System.out.println("Checking for persistence files...");
 		PersistenceFileManager.createSequenceFilesIfMissing(persistencePaths);
 		System.out.println("Checking for dropbox...");

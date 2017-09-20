@@ -1,17 +1,8 @@
 package net.toddsarratt.renttracker.entity;
 
-public class Asset {
-	private Long id;
+public class Asset extends Entity {
 	private String title;
 	private String provider;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getTitle() {
 		return title;

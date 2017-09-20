@@ -4,21 +4,12 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 
-public class AssetLease {
-	private Long id;
+public class AssetLease extends Entity {
 	private Stb stb;
 	private Asset asset;
 	private LocalDate date;
 	private BigDecimal rev;
 	private Duration viewTime;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public Stb getStb() {
 		return stb;

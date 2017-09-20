@@ -8,10 +8,20 @@ import java.nio.file.Path;
 
 public class AssetLeaseFileDAO extends GenericFileDAO<AssetLease, Long> implements AssetLeaseDAO {
 
-	private Path filePath;
+	private static AssetLeaseFileDAO instance;
+	private static Path filePath;
 
-	public AssetLeaseFileDAO(Path filePath) {
-		this.filePath = filePath;
+	/**
+	 * Do not allow instantiation of this singleton
+	 */
+	private AssetLeaseFileDAO() {
+	}
+
+	public static AssetLeaseFileDAO getInstance() {
+		if (instance == null) {
+			instance = new AssetLeaseFileDAO();
+		}
+		return instance;
 	}
 
 	@Override

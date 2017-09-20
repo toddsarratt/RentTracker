@@ -4,23 +4,31 @@ import net.toddsarratt.renttracker.datastore.dto.StbFileDTO;
 import net.toddsarratt.renttracker.entity.Stb;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
-public class StbFileDAO extends GenericFileDAO<Stb, Long> implements StbDAO {
+public class StbFileDAO extends GenericFileDAO<Stb, Long> {
 
-	private Path filePath;
+	private static StbFileDAO instance = null;
 
-	public StbFileDAO(Path filePath) {
-		this.filePath = filePath;
+	/**
+	 * Do not allow instantiation of this singleton
+	 */
+	private StbFileDAO() {
+	}
+
+	public static StbFileDAO getInstance() {
+		if (instance == null) {
+			instance = new StbFileDAO();
+		}
+		return instance;
 	}
 
 	@Override
 	public Long create(Stb newInstance) {
 		try {
-			Long lastId = getIdFromSeqFile(filePath);
+			Long lastId = getIdFromSeqFile(this.getFilePath());
 			newInstance.setId(lastId + 1L);
 			StbFileDTO dto = new StbFileDTO(newInstance);
-			save(dto, filePath);
+			save(dto, this.getFilePath());
 		} catch (IOException ioe) {
 			// Log error
 			return null;
@@ -30,6 +38,15 @@ public class StbFileDAO extends GenericFileDAO<Stb, Long> implements StbDAO {
 
 	@Override
 	public Stb find(Long id) {
+		/*
+		Get connection
+		Search by ID
+		Return STB
+		 */
+		return null;
+	}
+
+	public Stb findByName(String name) {
 		/*
 		Get connection
 		Search by ID
@@ -54,13 +71,5 @@ public class StbFileDAO extends GenericFileDAO<Stb, Long> implements StbDAO {
 		Find record
 		Delete record
 		 */
-	}
-
-	public Path getFilePath() {
-		return filePath;
-	}
-
-	public void setFilePath(Path filePath) {
-		this.filePath = filePath;
 	}
 }
