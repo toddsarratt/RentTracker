@@ -1,10 +1,13 @@
 package net.toddsarratt.renttracker.datastore.dao;
 
 import net.toddsarratt.renttracker.datastore.dto.AssetLeaseFileDTO;
+import net.toddsarratt.renttracker.entity.Asset;
 import net.toddsarratt.renttracker.entity.AssetLease;
+import net.toddsarratt.renttracker.entity.Stb;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDate;
 
 public class AssetLeaseFileDAO extends GenericFileDAO<AssetLease, Long> implements AssetLeaseDAO {
 
@@ -45,6 +48,10 @@ public class AssetLeaseFileDAO extends GenericFileDAO<AssetLease, Long> implemen
 		Search by ID
 		Return AssetLease
 		 */
+		return null;
+	}
+
+	public AssetLease findByStbAssetDate(Stb stb, Asset asset, LocalDate date) {
 		return null;
 	}
 

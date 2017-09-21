@@ -23,8 +23,12 @@ public abstract class GenericFileDAO<T, ID extends Serializable> implements Gene
 		String persistenceDir = filePath.toString();
 		Path path = Paths.get(persistenceDir, dto.getId().toString() + dto.getFileSuffix());
 		Files.write(path, dto.serializeToFile());
-		Path seqFile = Paths.get(persistenceDir, SEQ_FILE_PREFIX + "." + dto.getFileSuffix());
+		Path seqFile = Paths.get(persistenceDir, "\\", SEQ_FILE_PREFIX + dto.getFileSuffix());
 		Files.write(seqFile, dto.getId().toString().getBytes());
+	}
+
+	void incrementSequence(Path seqPath) throws IOException {
+
 	}
 
 	public Path getFilePath() {

@@ -27,12 +27,12 @@ public class RentTracker {
 	private static GenericFileDAO assetFileDAO = AssetFileDAO.getInstance();
 	private static GenericFileDAO assetLeaseFileDAO = AssetLeaseFileDAO.getInstance();
 
-	private void setDaoPaths(List<Path> persistencePaths) {
+	private static void setDaoPaths(List<Path> persistencePaths) {
 		persistencePaths.forEach(path -> {
-			if (path.toString().contains("Stb")) {
+			if (path.toString().contains("stb")) {
 				System.out.println("StbFileDAO path for persisted object = " + path);
 				stbFileDAO.setFilePath(path);
-			} else if (path.toString().contains("AssetLease")) {
+			} else if (path.toString().contains("assetLease")) {
 				System.out.println("AssetLeaseFileDAO path for persisted object = " + path);
 				assetLeaseFileDAO.setFilePath(path);
 			} else {
@@ -52,7 +52,7 @@ public class RentTracker {
 		System.out.println("Checking for persistence directories...");
 		List<Path> persistencePaths =
 				PersistenceDirectoryManager.createPersistenceDirectoriesIfMissing(PERSISTENCE_DIRECTORY);
-
+		setDaoPaths(persistencePaths);
 		System.out.println("Checking for persistence files...");
 		PersistenceFileManager.createSequenceFilesIfMissing(persistencePaths);
 		System.out.println("Checking for dropbox...");

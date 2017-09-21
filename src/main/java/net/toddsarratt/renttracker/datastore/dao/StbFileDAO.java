@@ -3,7 +3,12 @@ package net.toddsarratt.renttracker.datastore.dao;
 import net.toddsarratt.renttracker.datastore.dto.StbFileDTO;
 import net.toddsarratt.renttracker.entity.Stb;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 public class StbFileDAO extends GenericFileDAO<Stb, Long> {
 
@@ -25,7 +30,8 @@ public class StbFileDAO extends GenericFileDAO<Stb, Long> {
 	@Override
 	public Long create(Stb newInstance) {
 		try {
-			Long lastId = getIdFromSeqFile(this.getFilePath());
+			Path sequenceFilePath = Paths.get(this.getFilePath().toString(), "seq.stb");
+			Long lastId = getIdFromSeqFile(sequenceFilePath);
 			newInstance.setId(lastId + 1L);
 			StbFileDTO dto = new StbFileDTO(newInstance);
 			save(dto, this.getFilePath());
@@ -46,13 +52,30 @@ public class StbFileDAO extends GenericFileDAO<Stb, Long> {
 		return null;
 	}
 
-	public Stb findByName(String name) {
-		/*
-		Get connection
-		Search by ID
-		Return STB
-		 */
-		return null;
+	public Stb findByName(String name) throws IOException {
+		Stb foundStb = null;
+
+		File dir = new File(getFilePath().toString());
+		File[] files = dir.listFiles();
+		if (files != null) {
+			for (File file : files) {
+				if (!file.getName().contains("seq")) {
+					System.out.println("Checking: " + file.getName() + " for Stb name: " + name);
+					List<String> fileContents = Files.readAllLines(file.toPath());
+					StbFileDTO dto = StbFileDTO.fromFileRead(fileContents.get(0));
+					if (dto != null) {
+						if (dto.getName().equals(name)) {
+							foundStb = new Stb();
+							foundStb.setId(dto.getId());
+							foundStb.setName(dto.getName());
+							break;
+						}
+					}
+				}
+			}
+		}
+		// If no STB is found this will return null
+		return foundStb;
 	}
 
 	@Override

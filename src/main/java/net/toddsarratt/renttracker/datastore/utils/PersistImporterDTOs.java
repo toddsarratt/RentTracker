@@ -8,6 +8,7 @@ import net.toddsarratt.renttracker.entity.AssetLease;
 import net.toddsarratt.renttracker.entity.Stb;
 import net.toddsarratt.renttracker.importer.ViewFileDTO;
 
+import java.io.IOException;
 import java.util.List;
 
 public class PersistImporterDTOs {
@@ -16,8 +17,8 @@ public class PersistImporterDTOs {
 	private static AssetFileDAO assetFileDAO = AssetFileDAO.getInstance();
 	private static AssetLeaseFileDAO assetLeaseFileDAO = AssetLeaseFileDAO.getInstance();
 
-	public static void persistDTOs(List<ViewFileDTO> dtos) {
-		dtos.forEach(dto -> {
+	public static void persistDTOs(List<ViewFileDTO> dtos) throws IOException {
+		for (ViewFileDTO dto : dtos) {
 			Stb stb = new Stb();
 			stb.setName(dto.getStb());
 			writeStb(stb);
@@ -32,10 +33,10 @@ public class PersistImporterDTOs {
 			assetLease.setRev(dto.getRev());
 			assetLease.setViewTime(dto.getViewTime());
 			writeAssetLease(assetLease);
-		});
+		}
 	}
 
-	private static void writeStb(Stb stb) {
+	private static void writeStb(Stb stb) throws IOException {
 		if (stbFileDAO.find(stb.getId()) == null &&
 				stbFileDAO.findByName(stb.getName()) == null) {
 			System.out.println("Persisting STB " + stb);
@@ -57,7 +58,10 @@ public class PersistImporterDTOs {
 
 	private static void writeAssetLease(AssetLease assetLease) {
 		if (assetLeaseFileDAO.find(assetLease.getId()) == null &&
-				assetLeaseFileDAO.findByUniqueField(assetLease.getDate()) == null) {
+				assetLeaseFileDAO.findByStbAssetDate(
+						assetLease.getStb(),
+						assetLease.getAsset(),
+						assetLease.getDate()) == null) {
 			System.out.println("Persisting asset " + assetLease);
 			assetLeaseFileDAO.create(assetLease);
 		} else {

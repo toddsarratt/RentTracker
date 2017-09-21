@@ -9,14 +9,41 @@ public class StbFileDTO implements FileDTO {
 	private Long id;
 	private String name;
 
+	private StbFileDTO() {
+	}
+
 	public StbFileDTO(Stb stb) {
 		this.id = stb.getId();
 		this.name = stb.getName();
 	}
 
+	/**
+	 * Receives a String from a file read of a persisted STB.
+	 * Example incoming String: '1|stb1'
+	 *
+	 * @param fileContents
+	 * @return null if incoming String does not match the expected format
+	 */
+	public static StbFileDTO fromFileRead(String fileContents) {
+		String[] line = fileContents.split("|");
+		Long id;
+		// Make sure it's a number!
+		if (line[0].matches("^\\d+$")) {
+			id = Long.valueOf(line[0]);
+		} else {
+			return null;
+		}
+		String stbName = line[1];
+		StbFileDTO dto = new StbFileDTO();
+		dto.setId(id);
+		dto.setName(stbName);
+		return dto;
+	}
+
 	@Override
 	public byte[] serializeToFile() {
-		return this.name.getBytes();
+		String lineToWrite = this.getId() + "|" + this.getName();
+		return lineToWrite.getBytes();
 	}
 
 	@Override
