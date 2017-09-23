@@ -1,9 +1,9 @@
 package net.toddsarratt.renttracker.datastore.dto;
 
 public interface FileDTO {
-	public Long getId();
+	String getId();
 
-	public byte[] serializeToFile();
+	byte[] serializeToFile();
 
-	public String getFileSuffix();
+	String getFileSuffix();
 }

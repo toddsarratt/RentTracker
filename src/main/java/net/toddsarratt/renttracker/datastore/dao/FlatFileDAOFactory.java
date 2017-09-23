@@ -1,5 +1,5 @@
 package net.toddsarratt.renttracker.datastore.dao;
 
-public class FlatFileDAOFactory extends DAOFactory {
+public class FlatFileDAOFactory {
 
 }

@@ -6,14 +6,14 @@ public class StbFileDTO implements FileDTO {
 
 	private static final String FILE_SUFFIX = ".stb";
 
-	private Long id;
+	private String id;
 	private String name;
 
 	private StbFileDTO() {
 	}
 
 	public StbFileDTO(Stb stb) {
-		this.id = stb.getId();
+		this.id = stb.getId().toString();
 		this.name = stb.getName();
 	}
 
@@ -26,13 +26,7 @@ public class StbFileDTO implements FileDTO {
 	 */
 	public static StbFileDTO fromFileRead(String fileContents) {
 		String[] line = fileContents.split("\\|");
-		Long id;
-		// Make sure it's a number!
-		if (line[0].matches("^\\d+$")) {
-			id = Long.valueOf(line[0]);
-		} else {
-			return null;
-		}
+		String id = line[0];
 		String stbName = line[1];
 		StbFileDTO dto = new StbFileDTO();
 		dto.setId(id);
@@ -51,11 +45,11 @@ public class StbFileDTO implements FileDTO {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

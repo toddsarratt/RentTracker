@@ -61,7 +61,7 @@ public class StbFileDAO extends GenericFileDAO<Stb, Long> {
 					if (dto != null) {
 						if (dto.getName().equals(name)) {
 							foundStb = new Stb();
-							foundStb.setId(dto.getId());
+							foundStb.setId(Long.valueOf(dto.getId()));
 							foundStb.setName(dto.getName());
 							break;
 						}

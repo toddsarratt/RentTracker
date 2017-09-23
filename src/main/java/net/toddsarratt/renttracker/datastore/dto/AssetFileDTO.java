@@ -6,7 +6,7 @@ public class AssetFileDTO implements FileDTO {
 
 	private static final String FILE_SUFFIX = ".asset";
 
-	private Long id;
+	private String id;
 	private String title;
 	private String provider;
 
@@ -14,7 +14,7 @@ public class AssetFileDTO implements FileDTO {
 	}
 
 	public AssetFileDTO(Asset asset) {
-		this.id = asset.getId();
+		this.id = asset.getId().toString();
 		this.title = asset.getTitle();
 		this.provider = asset.getProvider();
 	}
@@ -28,17 +28,10 @@ public class AssetFileDTO implements FileDTO {
 	 */
 	public static AssetFileDTO fromFileRead(String fileContents) {
 		String[] line = fileContents.split("\\|");
-		Long id;
-		// Make sure it's a number!
-		if (line[0].matches("^\\d+$")) {
-			id = Long.valueOf(line[0]);
-		} else {
-			return null;
-		}
 		String title = line[1];
 		String provider = line[2];
 		AssetFileDTO dto = new AssetFileDTO();
-		dto.setId(id);
+		dto.setId(line[0]);
 		dto.setTitle(title);
 		dto.setProvider(provider);
 		return dto;
@@ -54,11 +47,11 @@ public class AssetFileDTO implements FileDTO {
 		return FILE_SUFFIX;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
