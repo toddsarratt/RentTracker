@@ -1,5 +1,6 @@
 package net.toddsarratt.renttracker.datastore.dao;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -13,7 +14,7 @@ public interface GenericDAO<T, PK extends Serializable> {
 	/**
 	 * Create operation
 	 */
-	PK create(T newInstance);
+	PK create(T newInstance) throws IOException;
 
 	/**
 	 * Read operation

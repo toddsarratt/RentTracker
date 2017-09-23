@@ -28,17 +28,12 @@ public class StbFileDAO extends GenericFileDAO<Stb, Long> {
 	}
 
 	@Override
-	public Long create(Stb newInstance) {
-		try {
-			Path sequenceFilePath = Paths.get(this.getFilePath().toString(), "seq.stb");
+	public Long create(Stb newInstance) throws IOException {
+		Path sequenceFilePath = Paths.get(getFilePath().toString(), "seq.stb");
 			Long lastId = getIdFromSeqFile(sequenceFilePath);
 			newInstance.setId(lastId + 1L);
 			StbFileDTO dto = new StbFileDTO(newInstance);
-			save(dto, this.getFilePath());
-		} catch (IOException ioe) {
-			// Log error
-			return null;
-		}
+		save(dto, getFilePath());
 		return newInstance.getId();
 	}
 

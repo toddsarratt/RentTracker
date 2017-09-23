@@ -29,8 +29,7 @@ public class AssetLeaseFileDTO implements FileDTO {
 				assetId + "|" +
 				date + "|" +
 				rev + "|" +
-				viewTime +
-				"\\n").getBytes();
+				viewTime).getBytes();
 	}
 
 	@Override

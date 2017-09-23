@@ -42,7 +42,7 @@ public class StbFileDTO implements FileDTO {
 
 	@Override
 	public byte[] serializeToFile() {
-		return (id + "|" + name + "\\n").getBytes();
+		return (id + "|" + name).getBytes();
 	}
 
 	@Override

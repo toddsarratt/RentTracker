@@ -7,12 +7,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
-public class AssetFileDAO extends GenericFileDAO<Asset, Long> implements AssetDAO {
+public class AssetFileDAO extends GenericFileDAO<Asset, Long> {
 
 	private static AssetFileDAO instance;
-	private static Path filePath;
 
 	/**
 	 * Do not allow instantiation of this singleton
@@ -28,16 +28,12 @@ public class AssetFileDAO extends GenericFileDAO<Asset, Long> implements AssetDA
 	}
 
 	@Override
-	public Long create(Asset newInstance) {
-		try {
-			Long lastId = getIdFromSeqFile(filePath);
+	public Long create(Asset newInstance) throws IOException {
+		Path sequenceFilePath = Paths.get(this.getFilePath().toString(), "seq.asset");
+		Long lastId = getIdFromSeqFile(sequenceFilePath);
 			newInstance.setId(lastId + 1L);
 			AssetFileDTO dto = new AssetFileDTO(newInstance);
-			save(dto, filePath);
-		} catch (IOException ioe) {
-			// Log error
-			return null;
-		}
+		save(dto, getFilePath());
 		return newInstance.getId();
 	}
 
@@ -93,13 +89,5 @@ public class AssetFileDAO extends GenericFileDAO<Asset, Long> implements AssetDA
 		Find record
 		Delete record
 		 */
-	}
-
-	public Path getFilePath() {
-		return filePath;
-	}
-
-	public void setFilePath(Path filePath) {
-		this.filePath = filePath;
 	}
 }

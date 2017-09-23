@@ -46,7 +46,7 @@ public class AssetFileDTO implements FileDTO {
 
 	@Override
 	public byte[] serializeToFile() {
-		return (title + "|" + provider + "\\n").getBytes();
+		return (id + "|" + title + "|" + provider).getBytes();
 	}
 
 	@Override
