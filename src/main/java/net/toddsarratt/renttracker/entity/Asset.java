@@ -19,4 +19,13 @@ public class Asset extends Entity {
 	public void setProvider(String provider) {
 		this.provider = provider;
 	}
+
+	@Override
+	public String toString() {
+		return "Asset{" +
+				"title='" + title + '\'' +
+				", provider='" + provider + '\'' +
+				", id=" + id +
+				'}';
+	}
 }

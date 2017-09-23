@@ -36,20 +36,21 @@ public class PersistImporterDTOs {
 		}
 	}
 
-	private static void writeStb(Stb stb) throws IOException {
-		if (stbFileDAO.find(stb.getId()) == null &&
+	private static boolean writeStb(Stb stb) throws IOException {
+		if ((stb.getId() == null || stbFileDAO.find(stb.getId()) == null) &&
 				stbFileDAO.findByName(stb.getName()) == null) {
-			System.out.println("Persisting STB " + stb);
+			System.out.println("Persisting: " + stb);
 			stbFileDAO.create(stb);
-		} else {
-			System.out.println("STB " + stb + " already persisted.");
+			return true;
 		}
+		System.out.println("STB " + stb + " already persisted.");
+		return false;
 	}
 
-	private static void writeAsset(Asset asset) {
-		if (assetFileDAO.find(asset.getId()) == null &&
+	private static void writeAsset(Asset asset) throws IOException {
+		if ((asset.getId() == null || assetFileDAO.find(asset.getId()) == null) &&
 				assetFileDAO.findByTitle(asset.getTitle()) == null) {
-			System.out.println("Persisting asset " + asset);
+			System.out.println("Persisting: " + asset);
 			assetFileDAO.create(asset);
 		} else {
 			System.out.println("Asset " + asset + " already persisted.");
@@ -62,7 +63,7 @@ public class PersistImporterDTOs {
 						assetLease.getStb(),
 						assetLease.getAsset(),
 						assetLease.getDate()) == null) {
-			System.out.println("Persisting asset " + assetLease);
+			System.out.println("Persisting: " + assetLease);
 			assetLeaseFileDAO.create(assetLease);
 		} else {
 			System.out.println("AssetLease " + assetLease + " already persisted.");

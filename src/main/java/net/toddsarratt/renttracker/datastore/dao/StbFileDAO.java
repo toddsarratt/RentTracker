@@ -60,7 +60,7 @@ public class StbFileDAO extends GenericFileDAO<Stb, Long> {
 		if (files != null) {
 			for (File file : files) {
 				if (!file.getName().contains("seq")) {
-					System.out.println("Checking: " + file.getName() + " for Stb name: " + name);
+					System.out.println("Checking file: \'" + file.getName() + "\' for Stb name: \'" + name + "\'");
 					List<String> fileContents = Files.readAllLines(file.toPath());
 					StbFileDTO dto = StbFileDTO.fromFileRead(fileContents.get(0));
 					if (dto != null) {

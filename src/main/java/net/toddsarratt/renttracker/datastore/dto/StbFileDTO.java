@@ -25,7 +25,7 @@ public class StbFileDTO implements FileDTO {
 	 * @return null if incoming String does not match the expected format
 	 */
 	public static StbFileDTO fromFileRead(String fileContents) {
-		String[] line = fileContents.split("|");
+		String[] line = fileContents.split("\\|");
 		Long id;
 		// Make sure it's a number!
 		if (line[0].matches("^\\d+$")) {
@@ -42,8 +42,7 @@ public class StbFileDTO implements FileDTO {
 
 	@Override
 	public byte[] serializeToFile() {
-		String lineToWrite = this.getId() + "|" + this.getName();
-		return lineToWrite.getBytes();
+		return (id + "|" + name + "\\n").getBytes();
 	}
 
 	@Override

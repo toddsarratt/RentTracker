@@ -50,4 +50,16 @@ public class AssetLease extends Entity {
 	public void setViewTime(Duration viewTime) {
 		this.viewTime = viewTime;
 	}
+
+	@Override
+	public String toString() {
+		return "AssetLease{" +
+				"stb=" + stb +
+				", asset=" + asset +
+				", date=" + date +
+				", rev=" + rev +
+				", viewTime=" + viewTime +
+				", id=" + id +
+				'}';
+	}
 }

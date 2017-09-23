@@ -24,13 +24,13 @@ public class AssetLeaseFileDTO implements FileDTO {
 
 	@Override
 	public byte[] serializeToFile() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(stbId).append("|")
-				.append(assetId).append("|")
-				.append(date).append("|")
-				.append(rev).append("|")
-				.append(viewTime);
-		return sb.toString().getBytes();
+		return (id + "|" +
+				stbId + "|" +
+				assetId + "|" +
+				date + "|" +
+				rev + "|" +
+				viewTime +
+				"\\n").getBytes();
 	}
 
 	@Override
