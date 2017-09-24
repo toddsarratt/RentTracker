@@ -63,6 +63,7 @@ public class AssetFileDAO extends GenericFileDAO<Asset, Long> {
 							foundAsset = new Asset();
 							foundAsset.setId(Long.valueOf(dto.getId()));
 							foundAsset.setTitle(dto.getTitle());
+							foundAsset.setProvider(dto.getProvider());
 							break;
 						}
 					}

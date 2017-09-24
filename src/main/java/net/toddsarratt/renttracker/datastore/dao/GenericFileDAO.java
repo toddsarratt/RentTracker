@@ -22,13 +22,13 @@ public abstract class GenericFileDAO<T, ID extends Serializable> implements Gene
 
 	void save(FileDTO dto, Path filePath) throws IOException {
 		String persistenceDir = filePath.toString();
-		Path path = Paths.get(persistenceDir, dto.getId().toString() + dto.getFileSuffix());
+		Path path = Paths.get(persistenceDir, dto.getId() + dto.getFileSuffix());
 		System.out.println("Persisting: " + dto + "to: " + path);
 		Files.write(path, dto.serializeToFile());
 		Files.write(path, System.getProperty("line.separator").getBytes(), StandardOpenOption.APPEND);
 		Path seqFile = Paths.get(persistenceDir, "\\", SEQ_FILE_PREFIX + dto.getFileSuffix());
 		System.out.println("Writing seq #: " + dto.getId() + " to: " + seqFile);
-		Files.write(seqFile, dto.getId().toString().getBytes());
+		Files.write(seqFile, dto.getId().getBytes());
 		Files.write(seqFile, System.getProperty("line.separator").getBytes(), StandardOpenOption.APPEND);
 	}
 

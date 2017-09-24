@@ -113,4 +113,16 @@ public class AssetLeaseFileDTO implements FileDTO {
 	public void setViewTime(String viewTime) {
 		this.viewTime = viewTime;
 	}
+
+	@Override
+	public String toString() {
+		return "AssetLeaseFileDTO{" +
+				"id='" + id + '\'' +
+				", stbId='" + stbId + '\'' +
+				", assetId='" + assetId + '\'' +
+				", date='" + date + '\'' +
+				", rev='" + rev + '\'' +
+				", viewTime='" + viewTime + '\'' +
+				'}';
+	}
 }

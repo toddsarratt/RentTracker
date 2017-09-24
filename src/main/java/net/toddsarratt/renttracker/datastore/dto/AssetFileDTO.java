@@ -70,4 +70,13 @@ public class AssetFileDTO implements FileDTO {
 	public void setProvider(String provider) {
 		this.provider = provider;
 	}
+
+	@Override
+	public String toString() {
+		return "AssetFileDTO{" +
+				"id='" + id + '\'' +
+				", title='" + title + '\'' +
+				", provider='" + provider + '\'' +
+				'}';
+	}
 }
