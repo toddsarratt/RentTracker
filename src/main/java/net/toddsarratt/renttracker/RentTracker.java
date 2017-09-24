@@ -61,6 +61,6 @@ public class RentTracker {
 		List<ViewFileDTO> allDtosToPersist = ViewFileImporter.importFromDropbox(dropboxPath, CHARSET);
 		PersistImporterDTOs.persistDTOs(allDtosToPersist);
 		System.out.println("Launching REPL...");
-		QueryHandler.doIt();
+		QueryHandler.execute();
 	}
 }

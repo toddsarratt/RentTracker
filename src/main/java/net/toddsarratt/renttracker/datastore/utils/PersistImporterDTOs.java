@@ -22,10 +22,12 @@ public class PersistImporterDTOs {
 			Stb stb = new Stb();
 			stb.setName(dto.getStb());
 			Stb persistedStb = writeStb(stb);
+
 			Asset asset = new Asset();
 			asset.setTitle(dto.getTitle());
 			asset.setProvider(dto.getProvider());
 			Asset persistedAsset = writeAsset(asset);
+
 			AssetLease assetLease = new AssetLease();
 			assetLease.setStb(persistedStb);
 			assetLease.setAsset(persistedAsset);

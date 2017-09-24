@@ -62,16 +62,16 @@ public class AssetLeaseFileDAO extends GenericFileDAO<AssetLease, Long> {
 		if (files != null) {
 			for (File file : files) {
 				if (!file.getName().contains("seq")) {
-					System.out.println("Checking file: \'" + file.getName() + "\' for AssetLease of : " +
+					System.out.println("Checking file: \'" + file.getName() + "\' for AssetLease of: " +
 							"\'" + stb + "\'" +
 							"\'" + asset + "\'" +
 							"\'" + date + "\'");
 					List<String> fileContents = Files.readAllLines(file.toPath());
 					AssetLeaseFileDTO dto = AssetLeaseFileDTO.fromFileRead(fileContents.get(0));
 					if (dto != null) {
-						if (dto.getStbId().equals(stb.getId()) &&
-								dto.getAssetId().equals(asset.getId()) &&
-								dto.getDate().equals(date)) {
+						if (dto.getStbId().equals(stb.getId().toString()) &&
+								dto.getAssetId().equals(asset.getId().toString()) &&
+								dto.getDate().equals(date.toString())) {
 							foundAssetLease = new AssetLease();
 							foundAssetLease.setId(Long.valueOf(dto.getId()));
 							foundAssetLease.setStb(stbFileDAO.find(Long.valueOf(dto.getStbId())));
